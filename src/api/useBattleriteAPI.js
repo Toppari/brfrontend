@@ -14,7 +14,7 @@ export default () => {
     try {
       const response = await axios.get(query);
       //TODO: change this to generic
-      setData(response.data.data[0].attributes.name);
+      setData(response.data);
     } catch (error) {
       setError(true);
       console.log(error);

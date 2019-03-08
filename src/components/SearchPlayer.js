@@ -17,6 +17,20 @@ const SearchPlayer = () => {
     }
   };
 
+  const renderData = () => {
+    if (data) {
+      return data.map(value => {
+        return (
+          <ul>
+            <li key={value.id}>name: {value.name}</li>
+            <li key={value.id}>titleId: {value.titleId}</li>
+            <li key={value.id}>pictureId: {value.pictureId}</li>
+          </ul>
+        );
+      });
+    }
+  };
+
   return (
     <div>
       <h1>Search player</h1>
@@ -33,8 +47,8 @@ const SearchPlayer = () => {
       </button>
 
       <div>
+        {renderData()}
         {isLoading ? <h5>Loading...</h5> : null}
-        {data ? <h5>{data}</h5> : null}
         {error && <h5>Something went wrong. Check console.</h5>}
       </div>
     </div>
