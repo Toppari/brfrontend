@@ -34,7 +34,8 @@ const App = () => {
 
       <div>
         {isLoading ? <h5>Loading...</h5> : null}
-        {error ? <h5>{error}</h5> : <h5>{data}</h5>}
+        {data ? <h5>{data}</h5> : null}
+        {error && <h5>Something went wrong. Check console.</h5>}
       </div>
     </div>
   );

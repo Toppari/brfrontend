@@ -5,23 +5,18 @@ export default () => {
   const [data, setData] = useState('');
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
 
   const fetchData = async () => {
     setError('');
     setIsLoading(true);
 
     try {
-      const response = await axios.get(query, {
-        headers: {
-          Authorization: 'Bearer ' + process.env.REACT_APP_BR_API_KEY,
-          Accept: 'application/json',
-        },
-      });
+      const response = await axios.get(query);
       setData(response.data.data[0].attributes.name);
     } catch (error) {
+      setError(true);
       console.log(error);
-      // setError(error.response.data.errors[0].title);
     }
 
     setIsLoading(false);
