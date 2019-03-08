@@ -21,8 +21,16 @@ const App = () => {
     <div>
       <h1>Search player</h1>
 
-      <input id="player_name" type="text" value={query} onChange={onChange} placeholder="Player name"/>
-      <button type="button" onClick={onClick}>Submit</button>
+      <input
+        id="player_name"
+        type="text"
+        value={query}
+        onChange={onChange}
+        placeholder="Player name"
+      />
+      <button type="button" onClick={onClick}>
+        Submit
+      </button>
 
       <div>
         {isLoading ? <h5>Loading...</h5> : null}

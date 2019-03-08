@@ -15,8 +15,8 @@ export default () => {
       const response = await axios.get(query, {
         headers: {
           Authorization: 'Bearer ' + process.env.REACT_APP_BR_API_KEY,
-          Accept: 'application/json'
-        }
+          Accept: 'application/json',
+        },
       });
       setData(response.data.data[0].attributes.name);
     } catch (error) {
