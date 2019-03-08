@@ -13,6 +13,7 @@ export default () => {
 
     try {
       const response = await axios.get(query);
+      //TODO: change this to generic
       setData(response.data.data[0].attributes.name);
     } catch (error) {
       setError(true);
@@ -29,7 +30,7 @@ export default () => {
   }, [query]);
 
   const getData = query => {
-    setQuery(`/player?name=${query}`);
+    setQuery(query);
   };
 
   return [data, isLoading, error, getData];

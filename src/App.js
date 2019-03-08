@@ -1,42 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import useBattleriteAPI from './api/useBattleriteAPI';
+import SearchPlayer from './components/SearchPlayer';
 
 const App = () => {
-  const [query, setQuery] = useState('');
-  const [data, isLoading, error, getData] = useBattleriteAPI();
-
-  const onChange = event => {
-    setQuery(event.target.value);
-  };
-
-  const onClick = () => {
-    if (query.length) {
-      getData(query);
-      setQuery('');
-    }
-  };
-
   return (
     <div>
-      <h1>Search player</h1>
-
-      <input
-        id="player_name"
-        type="text"
-        value={query}
-        onChange={onChange}
-        placeholder="Player name"
-      />
-      <button type="button" onClick={onClick}>
-        Submit
-      </button>
-
-      <div>
-        {isLoading ? <h5>Loading...</h5> : null}
-        {data ? <h5>{data}</h5> : null}
-        {error && <h5>Something went wrong. Check console.</h5>}
-      </div>
+      <SearchPlayer />
     </div>
   );
 };
