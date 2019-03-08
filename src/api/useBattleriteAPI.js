@@ -20,7 +20,8 @@ export default () => {
       });
       setData(response.data.data[0].attributes.name);
     } catch (error) {
-      setError(error.response.data.errors[0].title);
+      console.log(error);
+      // setError(error.response.data.errors[0].title);
     }
 
     setIsLoading(false);
@@ -33,7 +34,7 @@ export default () => {
   }, [query]);
 
   const getData = query => {
-    setQuery(`https://api.developer.battlerite.com/shards/global/players?filter[playerNames]=${query}`);
+    setQuery(`/player?name=${query}`);
   };
 
   return [data, isLoading, error, getData];
