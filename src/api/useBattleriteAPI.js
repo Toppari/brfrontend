@@ -3,34 +3,33 @@ import axios from 'axios';
 
 export default () => {
   const [data, setData] = useState('');
-  const [query, setQuery] = useState('');
+  const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const fetchData = async () => {
-    setError('');
-    setIsLoading(true);
-
-    try {
-      const response = await axios.get(query);
-      //TODO: change this to generic
-      setData(response.data);
-    } catch (error) {
-      setError(true);
-      console.log(error);
-    }
-
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    if (query) {
+    const fetchData = async () => {
+      setError('');
+      setIsLoading(true);
+
+      try {
+        const response = await axios.get(url);
+        setData(response.data);
+      } catch (error) {
+        setError(true);
+        console.log(error);
+      }
+
+      setIsLoading(false);
+    };
+
+    if (url) {
       fetchData();
     }
-  }, [query]);
+  }, [url]);
 
-  const getData = query => {
-    setQuery(query);
+  const getData = url => {
+    setUrl(url);
   };
 
   return [data, isLoading, error, getData];

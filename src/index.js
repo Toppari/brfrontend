@@ -7,14 +7,16 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import App from './App';
 import NotFound from './components/routes/NotFound';
 import Header from './components/routes/Header';
+import SearchPlayer from './components/SearchPlayer';
 
 ReactDOM.render(
   <Router>
     <div>
-      <Header/>
+      <Header />
       <Switch>
-        <Route exact path="/" component={App}/>
-        <Route component={NotFound}/>
+        <Route exact path="/" component={App} />
+        <Route exact path="/search/player" component={SearchPlayer} />
+        <Route component={NotFound} />
       </Switch>
     </div>
   </Router>,

@@ -6,26 +6,34 @@ const SearchPlayer = () => {
   const [inputValue, setInputValue] = useState('');
   const [data, isLoading, error, getData] = useBattleriteAPI();
 
-  const onChange = event => {
-    setInputValue(event.target.value);
-  };
+  const onChange = event => setInputValue(event.target.value);
 
   const onClick = () => {
     if (inputValue.length) {
-      getData(`/player?name=${inputValue}`);
+      //Add toLowerCase to not do new request for same input
+      getData(`/player?name=${inputValue.toLowerCase()}`);
       setInputValue('');
     }
   };
 
   const renderData = () => {
     if (data) {
-      return data.map(value => {
+      return data.map(({ id, name, titleId, pictureId, stats }) => {
         return (
-          <ul>
-            <li key={value.id}>name: {value.name}</li>
-            <li key={value.id}>titleId: {value.titleId}</li>
-            <li key={value.id}>pictureId: {value.pictureId}</li>
-          </ul>
+          <div key={id}>
+            <ul>
+              <li>name: {name}</li>
+              <li>titleId: {titleId}</li>
+              <li>pictureId: {pictureId}</li>
+            </ul>
+            {stats.map(({id, name, value}) => {
+              return (
+                <ul key={id}>
+                  <li>{name} = {value}</li>
+                </ul>
+              );
+            })}
+          </div>
         );
       });
     }
@@ -49,7 +57,9 @@ const SearchPlayer = () => {
       <div>
         {renderData()}
         {isLoading ? <h5>Loading...</h5> : null}
-        {error && <h5>Something went wrong. Check console.</h5>}
+        {error && (
+          <h5>Something went wrong. Check console for more information.</h5>
+        )}
       </div>
     </div>
   );

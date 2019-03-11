@@ -1,11 +1,9 @@
 import React from 'react';
 
-import SearchPlayer from './components/SearchPlayer';
-
 const App = () => {
   return (
     <div>
-      <SearchPlayer />
+      <h1>Home :)</h1>
     </div>
   );
 };
