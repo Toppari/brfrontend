@@ -5,10 +5,11 @@ export default () => {
   const [data, setData] = useState('');
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
+      setData('');
       setError('');
       setIsLoading(true);
 
@@ -16,8 +17,7 @@ export default () => {
         const response = await axios.get(url);
         setData(response.data);
       } catch (error) {
-        setError(true);
-        console.log(error);
+        setError(error.response.data);
       }
 
       setIsLoading(false);

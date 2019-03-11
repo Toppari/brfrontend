@@ -9,7 +9,8 @@ const SearchPlayer = () => {
   const onChange = event => setInputValue(event.target.value);
 
   const onClick = () => {
-    if (inputValue.length) {
+    //Player name must be at least 3 characters
+    if (inputValue.length >= 3) {
       //Add toLowerCase to not do new request for same input
       getData(`/player?name=${inputValue.toLowerCase()}`);
       setInputValue('');
@@ -26,10 +27,12 @@ const SearchPlayer = () => {
               <li>titleId: {titleId}</li>
               <li>pictureId: {pictureId}</li>
             </ul>
-            {stats.map(({id, name, value}) => {
+            {stats.map(({ id, name, value }) => {
               return (
                 <ul key={id}>
-                  <li>{name} = {value}</li>
+                  <li>
+                    {name} = {value}
+                  </li>
                 </ul>
               );
             })}
@@ -56,10 +59,8 @@ const SearchPlayer = () => {
 
       <div>
         {renderData()}
-        {isLoading ? <h5>Loading...</h5> : null}
-        {error && (
-          <h5>Something went wrong. Check console for more information.</h5>
-        )}
+        {isLoading && <h5>Loading...</h5>}
+        {error && <h5>Error: {error}</h5>}
       </div>
     </div>
   );
