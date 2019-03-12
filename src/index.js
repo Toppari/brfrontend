@@ -2,23 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
+import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import { Container } from 'semantic-ui-react';
 import App from './App';
-import NotFound from './components/routes/NotFound';
-import Header from './components/routes/Header';
+import NotFound from './components/NotFound';
+import Header from './components/Header';
 import SearchPlayer from './components/SearchPlayer';
 
 ReactDOM.render(
   <Router>
-    <div>
+    <Container>
       <Header />
       <Switch>
         <Route exact path="/" component={App} />
         <Route exact path="/search/player" component={SearchPlayer} />
         <Route component={NotFound} />
       </Switch>
-    </div>
+    </Container>
   </Router>,
   document.getElementById('root')
 );
