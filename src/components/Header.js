@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Segment } from 'semantic-ui-react';
 
 const Header = () => {
-  const [activeItem, setActiveItem] = useState('home');
+  const [activeItem, setActiveItem] = useState('');
 
   const handleItemClick = (event, { name }) => setActiveItem(name);
 

@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 import {
   Button,
-  Input,
   Loader,
   Dimmer,
   Message,
   Label,
   Segment,
   Statistic,
-  Card,
-  Placeholder,
+  Form,
 } from 'semantic-ui-react';
 
 import useBattleriteAPI from '../api/useBattleriteAPI';
+import Stats from './Stats';
+import Player from './Player';
 
 const SearchPlayer = () => {
   const [inputValue, setInputValue] = useState('');
   const [validationError, setValidationError] = useState('');
   const [data, isLoading, dataError, getData] = useBattleriteAPI();
 
-  const onChange = event => setInputValue(event.target.value);
+  const onChange = event => {
+    setInputValue(event.target.value);
+    setValidationError('');
+  };
 
   const onClick = () => {
     if (inputValue.length >= 3) {
@@ -37,25 +40,9 @@ const SearchPlayer = () => {
       return data.map(({ id, name, titleName, pictureHash, stats }) => {
         return (
           <Segment key={id}>
-            <Card
-              image={
-                <Placeholder>
-                  <Placeholder.Image />
-                </Placeholder>
-              }
-              header={name}
-              meta={titleName}
-            />
+            <Player name={name} titleName={titleName} />
             {stats.map(({ id, name, value }) => {
-              return (
-                <Statistic
-                  size="tiny"
-                  horizontal
-                  label={name}
-                  value={value}
-                  key={id}
-                />
-              );
+              return <Stats key={id} name={name} value={value} />;
             })}
           </Segment>
         );
@@ -71,18 +58,23 @@ const SearchPlayer = () => {
     <div>
       <h3>Search player</h3>
 
-      <Input
-        size="big"
-        action={searchButton()}
-        placeholder="Player name"
-        onChange={onChange}
-        value={inputValue}
-        error={validationError && true}
-        icon="users"
-        iconPosition="left"
-      />
+      <Form>
+        <Form.Input
+          fluid
+          autoFocus
+          onChange={onChange}
+          action={searchButton()}
+          value={inputValue}
+          error={validationError !== ''}
+          placeholder="Player name"
+          size="big"
+          icon="users"
+          iconPosition="left"
+        />
+      </Form>
+
       {validationError && (
-        <Label basic color="red" pointing="left">
+        <Label basic color="red">
           {validationError}
         </Label>
       )}
@@ -90,7 +82,7 @@ const SearchPlayer = () => {
       <div>
         {isLoading && (
           <Dimmer active inverted>
-            <Loader active content="Loading" />
+            <Loader active size="large" content="Loading" />
           </Dimmer>
         )}
         {dataError && (
@@ -101,7 +93,7 @@ const SearchPlayer = () => {
         )}
       </div>
 
-      <Statistic.Group widths="three">{renderData()}</Statistic.Group>
+      <Statistic.Group widths="3">{renderData()}</Statistic.Group>
     </div>
   );
 };
