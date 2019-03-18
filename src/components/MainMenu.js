@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Segment } from 'semantic-ui-react';
 
-const Header = () => {
-  const [activeItem, setActiveItem] = useState('');
+const MainMenu = () => {
+  const [activeItem, setActiveItem] = useState('home');
 
   const handleItemClick = (event, { name }) => setActiveItem(name);
 
   return (
     <Segment inverted>
-      <Menu inverted secondary icon="labeled">
+      <Menu inverted secondary>
         <Menu.Item
           as={Link}
           to="/"
@@ -19,19 +19,9 @@ const Header = () => {
           onClick={handleItemClick}
           icon="home"
         />
-
-        <Menu.Item
-          as={Link}
-          to="/search/player"
-          name="search-player"
-          content="Search player"
-          active={activeItem === 'search-player'}
-          onClick={handleItemClick}
-          icon="search"
-        />
       </Menu>
     </Segment>
   );
 };
 
-export default Header;
+export default MainMenu;

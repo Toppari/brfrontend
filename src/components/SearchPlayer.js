@@ -66,7 +66,7 @@ const SearchPlayer = () => {
           action={searchButton()}
           value={inputValue}
           error={validationError !== ''}
-          placeholder="Player name"
+          placeholder="Battlerite Username"
           size="big"
           icon="users"
           iconPosition="left"
@@ -93,7 +93,7 @@ const SearchPlayer = () => {
         )}
       </div>
 
-      <Statistic.Group widths="3">{renderData()}</Statistic.Group>
+      <Statistic.Group widths={3}>{renderData()}</Statistic.Group>
     </div>
   );
 };
