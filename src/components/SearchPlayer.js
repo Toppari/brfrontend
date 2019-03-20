@@ -13,6 +13,7 @@ import {
 import useBattleriteAPI from '../api/useBattleriteAPI';
 import Stats from './Stats';
 import Player from './Player';
+import MatchHistory from './MatchHistory';
 
 const SearchPlayer = () => {
   const [inputValue, setInputValue] = useState('');
@@ -29,21 +30,22 @@ const SearchPlayer = () => {
       //Add toLowerCase to not do new request for same input
       getData(`/player?name=${inputValue.toLowerCase()}`);
       setInputValue('');
-      setValidationError('');
     } else {
       setValidationError('Player name must be 3 characters or more');
     }
   };
 
   const renderData = () => {
-    if (data) {
-      return data.map(({ id, name, titleName, pictureHash, stats }) => {
+    if (Object.keys(data).length) {
+      return data.player.map(({ id, name, titleName, stats }) => {
         return (
           <Segment key={id}>
             <Player name={name} titleName={titleName} />
             {stats.map(({ id, name, value }) => {
               return <Stats key={id} name={name} value={value} />;
             })}
+            <h2>Match History</h2>
+            <MatchHistory {...data.match} />
           </Segment>
         );
       });

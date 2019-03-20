@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Segment } from 'semantic-ui-react';
 
 const MainMenu = () => {
-  const [activeItem, setActiveItem] = useState('home');
+  const [activeItem, setActiveItem] = useState('');
 
   const handleItemClick = (event, { name }) => setActiveItem(name);
 
@@ -18,6 +18,16 @@ const MainMenu = () => {
           active={activeItem === 'home'}
           onClick={handleItemClick}
           icon="home"
+        />
+        <Menu.Item
+          as={Link}
+          to="/about"
+          name="about"
+          content="About"
+          active={activeItem === 'about'}
+          onClick={handleItemClick}
+          icon="info"
+          position="right"
         />
       </Menu>
     </Segment>
