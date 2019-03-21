@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default () => {
   const [data, setData] = useState({});
-  const [url, setUrl] = useState('');
+  const [userName, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -14,20 +14,20 @@ export default () => {
       setIsLoading(true);
 
       try {
-        const playerResponse = await axios.get(url);
+        const playerResponse = await axios.get(`/player?name=${userName}`);
+        //Set player data here
+        //because if no matches were found we atleast wanna show player data
         setData({ player: playerResponse.data });
 
         const matchHistoryResponse = await axios.get(
           `/player/${playerResponse.data[0].id}/match`
         );
 
-        //If there is matches, fetch the first match data
-        if (matchHistoryResponse.data.data[0]) {
-          const matchResponse = await axios.get(
-            `/match/${matchHistoryResponse.data.data[0].id}`
-          );
-          setData({ player: playerResponse.data, match: matchResponse.data });
-        }
+        const matchResponse = await axios.get(
+          `/match/${matchHistoryResponse.data.data[0].id}`
+        );
+
+        setData({ player: playerResponse.data, match: matchResponse.data });
       } catch (error) {
         //Check if there is custom error message from backend (else is custom)
         if (error.response.data.message) {
@@ -40,13 +40,13 @@ export default () => {
       setIsLoading(false);
     };
 
-    if (url) {
+    if (userName) {
       fetchData();
     }
-  }, [url]);
+  }, [userName]);
 
-  const getData = url => {
-    setUrl(url);
+  const getData = userName => {
+    setUsername(userName);
   };
 
   return [data, isLoading, error, getData];

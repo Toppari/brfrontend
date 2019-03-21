@@ -26,12 +26,13 @@ const SearchPlayer = () => {
   };
 
   const onClick = () => {
-    if (inputValue.length >= 3) {
+    if (inputValue.length >= 3 && inputValue.replace(/\s/g, '').length) {
       //Add toLowerCase to not do new request for same input
-      getData(`/player?name=${inputValue.toLowerCase()}`);
+      //Trim whitespace
+      getData(inputValue.toLowerCase().trim());
       setInputValue('');
     } else {
-      setValidationError('Player name must be 3 characters or more');
+      setValidationError('Username must be 3 characters or more');
     }
   };
 
@@ -39,13 +40,15 @@ const SearchPlayer = () => {
     if (Object.keys(data).length) {
       return data.player.map(({ id, name, titleName, stats }) => {
         return (
-          <Segment key={id}>
+          <Segment key={id} inverted>
             <Player name={name} titleName={titleName} />
+            <h2>Match History</h2>
+            {data.match && <MatchHistory {...data.match} />}
+            <br />
+            <h2>Career Stats</h2>
             {stats.map(({ id, name, value }) => {
               return <Stats key={id} name={name} value={value} />;
             })}
-            <h2>Match History</h2>
-            <MatchHistory {...data.match} />
           </Segment>
         );
       });
@@ -95,7 +98,9 @@ const SearchPlayer = () => {
         )}
       </div>
 
-      <Statistic.Group widths={3}>{renderData()}</Statistic.Group>
+      <Statistic.Group inverted widths={3}>
+        {renderData()}
+      </Statistic.Group>
     </div>
   );
 };

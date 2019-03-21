@@ -1,8 +1,10 @@
 import React from 'react';
 import { Statistic } from 'semantic-ui-react';
 
-const MatchHistory = props => {
-  return <Statistic value={props.gameType} label={props.createdAt} />;
+const MatchHistory = ({ gameType, createdAt }) => {
+  const date = new Date(createdAt).toLocaleDateString('en-GB');
+
+  return <Statistic value={gameType} label={date} />;
 };
 
 export default MatchHistory;
