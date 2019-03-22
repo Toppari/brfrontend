@@ -8,6 +8,8 @@ import {
   Segment,
   Statistic,
   Form,
+  Divider,
+  Header,
 } from 'semantic-ui-react';
 
 import useBattleriteAPI from '../api/useBattleriteAPI';
@@ -38,14 +40,14 @@ const SearchPlayer = () => {
 
   const renderData = () => {
     if (Object.keys(data).length) {
-      return data.player.map(({ id, name, titleName, stats }) => {
+      return data.player.map(({ id, name, titleName, pictureHash, stats }) => {
         return (
           <Segment key={id} inverted>
-            <Player name={name} titleName={titleName} />
-            <h2>Match History</h2>
+            <Player name={name} titleName={titleName} avatarHash={pictureHash} />
+            <Header content="Match History" textAlign="center" size="large" />
             {data.match && <MatchHistory {...data.match} />}
-            <br />
-            <h2>Career Stats</h2>
+            <Divider />
+            <Header content="Career Stats" textAlign="center" size="large" />
             {stats.map(({ id, name, value }) => {
               return <Stats key={id} name={name} value={value} />;
             })}
@@ -92,7 +94,7 @@ const SearchPlayer = () => {
         )}
         {dataError && (
           <Message negative compact>
-            <Message.Header>Something went wrong:</Message.Header>
+            <Message.Header>Something went wrong</Message.Header>
             <p>{dataError}</p>
           </Message>
         )}

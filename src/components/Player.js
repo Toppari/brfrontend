@@ -1,15 +1,26 @@
 import React from 'react';
-import { Card } from 'semantic-ui-react';
+import { Header, Segment } from 'semantic-ui-react';
 
-const Player = ({ name, titleName }) => {
+const Player = ({ name, titleName, avatarHash }) => {
+  const avatar = () => {
+    try {
+      return require(`../assets/${avatarHash}.png`);
+    } catch (error) {
+      return require(`../assets/${avatarHash}.tga`);
+    }
+  };
+
   return (
-    <Card
-      //include player games played, winrate and
-      //account level here?
-      fluid
-      header={name}
-      meta={titleName}
-    />
+    <Segment inverted>
+      <Header
+        inverted
+        dividing
+        as="h1"
+        image={avatar()}
+        content={name}
+        subheader={titleName}
+      />
+    </Segment>
   );
 };
 
