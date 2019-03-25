@@ -2,32 +2,33 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default () => {
-  const [data, setData] = useState({});
-  const [userName, setUsername] = useState('');
+  const [playerData, setPlayerData] = useState({});
+  const [matchData, setMatchData] = useState([]);
+  const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
-      setData('');
+      setPlayerData({});
+      setMatchData([]);
       setError('');
       setIsLoading(true);
 
       try {
-        const playerResponse = await axios.get(`/player?name=${userName}`);
-        //Set player data here
-        //because if no matches were found we atleast wanna show player data
-        setData({ player: playerResponse.data });
+        const playerResponse = await axios.get(`/player?name=${username}`);
+        setPlayerData(playerResponse.data[0]);
 
         const matchHistoryResponse = await axios.get(
           `/player/${playerResponse.data[0].id}/match`
         );
 
-        const matchResponse = await axios.get(
-          `/match/${matchHistoryResponse.data.data[0].id}`
-        );
-
-        setData({ player: playerResponse.data, match: matchResponse.data });
+        const matchArray = [];
+        for (const match of matchHistoryResponse.data.data) {
+          const matchResponse = await axios.get(`/match/${match.id}`);
+          matchArray.push(matchResponse.data);
+          setMatchData(matchArray);
+        }
       } catch (error) {
         //Check if there is custom error message from backend (else is custom)
         if (error.response.data.message) {
@@ -36,18 +37,17 @@ export default () => {
           setError(error.response.data);
         }
       }
-
       setIsLoading(false);
     };
 
-    if (userName) {
+    if (username) {
       fetchData();
     }
-  }, [userName]);
+  }, [username]);
 
-  const getData = userName => {
-    setUsername(userName);
+  const getDataByUsername = username => {
+    setUsername(username);
   };
 
-  return [data, isLoading, error, getData];
+  return [playerData, matchData, isLoading, error, getDataByUsername];
 };

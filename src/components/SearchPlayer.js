@@ -20,7 +20,13 @@ import MatchHistory from './MatchHistory';
 const SearchPlayer = () => {
   const [inputValue, setInputValue] = useState('');
   const [validationError, setValidationError] = useState('');
-  const [data, isLoading, dataError, getData] = useBattleriteAPI();
+  const [
+    playerData,
+    matchData,
+    isLoading,
+    dataError,
+    getDataByUsername,
+  ] = useBattleriteAPI();
 
   const onChange = event => {
     setInputValue(event.target.value);
@@ -30,30 +36,45 @@ const SearchPlayer = () => {
   const onClick = () => {
     if (inputValue.length >= 3 && inputValue.replace(/\s/g, '').length) {
       //Add toLowerCase to not do new request for same input
-      //Trim whitespace
-      getData(inputValue.toLowerCase().trim());
+      getDataByUsername(inputValue.toLowerCase().trim());
       setInputValue('');
     } else {
       setValidationError('Username must be 3 characters or more');
     }
   };
 
+  const HeaderDivider = ({ content }) => {
+    return (
+      <Divider inverted horizontal>
+        <Header inverted content={content} size="large" />
+      </Divider>
+    );
+  };
+
+  //TODO: prevent rerendering this if the data is same
   const renderData = () => {
-    if (Object.keys(data).length) {
-      return data.player.map(({ id, name, titleName, pictureHash, stats }) => {
-        return (
-          <Segment key={id} inverted>
-            <Player name={name} titleName={titleName} avatarHash={pictureHash} />
-            <Header content="Match History" textAlign="center" size="large" />
-            {data.match && <MatchHistory {...data.match} />}
-            <Divider />
-            <Header content="Career Stats" textAlign="center" size="large" />
-            {stats.map(({ id, name, value }) => {
-              return <Stats key={id} name={name} value={value} />;
+    if (Object.keys(playerData).length && !isLoading) {
+      const { id, name, titleName, pictureHash, statCategoryList } = playerData;
+      return (
+        <Segment key={id} inverted>
+          <Player name={name} titleName={titleName} avatarHash={pictureHash} />
+
+          <HeaderDivider content="Match History" />
+          {matchData.length &&
+            matchData.map(match => {
+              return <MatchHistory key={match.id} {...match} />;
             })}
-          </Segment>
-        );
-      });
+
+          <HeaderDivider content="Career Stats" />
+          {statCategoryList.map(({ name, statList }) => {
+            return statList.map(({ id, name, value, iconHash }) => {
+              return (
+                <Stats key={id} name={name} value={value} iconHash={iconHash} />
+              );
+            });
+          })}
+        </Segment>
+      );
     }
   };
 
@@ -86,7 +107,7 @@ const SearchPlayer = () => {
         </Label>
       )}
 
-      <div>
+      <React.Fragment>
         {isLoading && (
           <Dimmer active inverted>
             <Loader active size="large" content="Loading" />
@@ -98,7 +119,7 @@ const SearchPlayer = () => {
             <p>{dataError}</p>
           </Message>
         )}
-      </div>
+      </React.Fragment>
 
       <Statistic.Group inverted widths={3}>
         {renderData()}
