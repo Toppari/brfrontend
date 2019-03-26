@@ -27,7 +27,7 @@ const DataTable = ({ playerData, matchData, isLoading }) => {
   const renderCareerStats = () => {
     const { statCategoryList } = playerData;
 
-    return statCategoryList.map(({ name, statList }) => {
+    return statCategoryList.map(({ statList }) => {
       return statList.map(({ id, name, value, iconHash }) => {
         return <Stats key={id} name={name} value={value} iconHash={iconHash} />;
       });

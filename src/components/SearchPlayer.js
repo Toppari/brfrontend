@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Button,
   Loader,
@@ -41,6 +41,17 @@ const SearchPlayer = () => {
     return <Button primary onClick={onClick} content="Search" icon="search" />;
   };
 
+  const renderDataError = useMemo(() => {
+    if (dataError) {
+      return (
+        <Message negative compact>
+          <Message.Header>Something went wrong</Message.Header>
+          <p>{dataError}</p>
+        </Message>
+      );
+    }
+  }, [dataError]);
+
   return (
     <div>
       <h3>Search player</h3>
@@ -71,12 +82,7 @@ const SearchPlayer = () => {
             <Loader active size="large" content="Loading" />
           </Dimmer>
         )}
-        {dataError && (
-          <Message negative compact>
-            <Message.Header>Something went wrong</Message.Header>
-            <p>{dataError}</p>
-          </Message>
-        )}
+        {renderDataError}
       </React.Fragment>
 
       <DataTable
