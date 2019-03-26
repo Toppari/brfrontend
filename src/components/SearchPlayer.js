@@ -60,13 +60,12 @@ const SearchPlayer = () => {
         />
       </Form>
 
-      {validationError && (
-        <Label basic color="red">
-          {validationError}
-        </Label>
-      )}
-
       <React.Fragment>
+        {validationError && (
+          <Label basic color="red">
+            {validationError}
+          </Label>
+        )}
         {isLoading && (
           <Dimmer active inverted>
             <Loader active size="large" content="Loading" />

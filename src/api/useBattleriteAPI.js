@@ -6,13 +6,13 @@ export default () => {
   const [matchData, setMatchData] = useState([]);
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [dataError, setDataError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       setPlayerData({});
       setMatchData([]);
-      setError('');
+      setDataError('');
       setIsLoading(true);
 
       try {
@@ -30,12 +30,7 @@ export default () => {
           setMatchData(matchArray);
         }
       } catch (error) {
-        //Check if there is custom error message from backend (else is custom)
-        if (error.response.data.message) {
-          setError(`Backend error: ${error.response.data.message}`);
-        } else {
-          setError(error.response.data);
-        }
+        setDataError(error.response.data.message);
       }
       setIsLoading(false);
     };
@@ -49,5 +44,5 @@ export default () => {
     setUsername(username);
   };
 
-  return [playerData, matchData, isLoading, error, getDataByUsername];
+  return [playerData, matchData, isLoading, dataError, getDataByUsername];
 };

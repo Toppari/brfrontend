@@ -14,25 +14,36 @@ const DataTable = ({ playerData, matchData, isLoading }) => {
     );
   };
 
+  const renderMatchHistory = () => {
+    if (!matchData.length) {
+      return 'No matches found';
+    }
+
+    return matchData.map(match => {
+      return <MatchHistory key={match.id} {...match} />;
+    });
+  };
+
+  const renderCareerStats = () => {
+    const { statCategoryList } = playerData;
+
+    return statCategoryList.map(({ name, statList }) => {
+      return statList.map(({ id, name, value, iconHash }) => {
+        return <Stats key={id} name={name} value={value} iconHash={iconHash} />;
+      });
+    });
+  };
+
   const renderData = () => {
     if (Object.keys(playerData).length && !isLoading) {
-      const { id, name, titleName, pictureHash, statCategoryList } = playerData;
+      const { id, name, titleName, pictureHash } = playerData;
       return (
         <Segment key={id} inverted>
           <Player name={name} titleName={titleName} avatarHash={pictureHash} />
           <HeaderDivider content="Match History" />
-          {matchData.length &&
-            matchData.map(match => {
-              return <MatchHistory key={match.id} {...match} />;
-            })}
+          {renderMatchHistory()}
           <HeaderDivider content="Career Stats" />
-          {statCategoryList.map(({ name, statList }) => {
-            return statList.map(({ id, name, value, iconHash }) => {
-              return (
-                <Stats key={id} name={name} value={value} iconHash={iconHash} />
-              );
-            });
-          })}
+          {renderCareerStats()}
         </Segment>
       );
     }
