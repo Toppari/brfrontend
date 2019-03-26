@@ -5,17 +5,11 @@ import {
   Dimmer,
   Message,
   Label,
-  Segment,
-  Statistic,
   Form,
-  Divider,
-  Header,
 } from 'semantic-ui-react';
 
 import useBattleriteAPI from '../api/useBattleriteAPI';
-import Stats from './Stats';
-import Player from './Player';
-import MatchHistory from './MatchHistory';
+import DataTable from './DataTable';
 
 const SearchPlayer = () => {
   const [inputValue, setInputValue] = useState('');
@@ -40,41 +34,6 @@ const SearchPlayer = () => {
       setInputValue('');
     } else {
       setValidationError('Username must be 3 characters or more');
-    }
-  };
-
-  const HeaderDivider = ({ content }) => {
-    return (
-      <Divider inverted horizontal>
-        <Header inverted content={content} size="large" />
-      </Divider>
-    );
-  };
-
-  //TODO: prevent rerendering this if the data is same
-  const renderData = () => {
-    if (Object.keys(playerData).length && !isLoading) {
-      const { id, name, titleName, pictureHash, statCategoryList } = playerData;
-      return (
-        <Segment key={id} inverted>
-          <Player name={name} titleName={titleName} avatarHash={pictureHash} />
-
-          <HeaderDivider content="Match History" />
-          {matchData.length &&
-            matchData.map(match => {
-              return <MatchHistory key={match.id} {...match} />;
-            })}
-
-          <HeaderDivider content="Career Stats" />
-          {statCategoryList.map(({ name, statList }) => {
-            return statList.map(({ id, name, value, iconHash }) => {
-              return (
-                <Stats key={id} name={name} value={value} iconHash={iconHash} />
-              );
-            });
-          })}
-        </Segment>
-      );
     }
   };
 
@@ -121,9 +80,11 @@ const SearchPlayer = () => {
         )}
       </React.Fragment>
 
-      <Statistic.Group inverted widths={3}>
-        {renderData()}
-      </Statistic.Group>
+      <DataTable
+        playerData={playerData}
+        matchData={matchData}
+        isLoading={isLoading}
+      />
     </div>
   );
 };
