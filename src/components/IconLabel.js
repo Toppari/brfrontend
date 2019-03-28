@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Popup } from 'semantic-ui-react';
 
-const Icon = ({ name, iconHash }) => {
+const IconLabel = ({ name, iconHash }) => {
   return (
     <Popup
       trigger={
@@ -20,4 +20,4 @@ const Icon = ({ name, iconHash }) => {
   );
 };
 
-export default Icon;
+export default IconLabel;

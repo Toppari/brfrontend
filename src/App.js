@@ -11,8 +11,8 @@ const App = () => {
   return (
     <Router>
       <Segment inverted>
-        <MainMenu/>
         <Container>
+        <MainMenu/>
           <Switch>
             <Route exact path="/" component={SearchPlayer}/>
             <Route exact path="/about" component={About}/>

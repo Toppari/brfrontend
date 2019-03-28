@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Statistic } from 'semantic-ui-react';
+import { Segment, Statistic, Header } from 'semantic-ui-react';
 
 import HeaderDivider from './HeaderDivider';
 import MatchHistory from './MatchHistory';
@@ -9,7 +9,7 @@ import Player from './Player';
 const DataTable = ({ playerData, matchData, isLoading }) => {
   const renderMatchHistory = () => {
     if (!matchData.length) {
-      return 'No matches found';
+      return <Header as="h5" textAlign="center" content="No matches found" />;
     }
 
     return matchData.map(({ id, ...rest }) => {
@@ -27,9 +27,9 @@ const DataTable = ({ playerData, matchData, isLoading }) => {
 
   const renderData = () => {
     if (Object.keys(playerData).length && !isLoading) {
-      const { id, name, titleName, pictureHash } = playerData;
+      const { name, titleName, pictureHash } = playerData;
       return (
-        <Segment key={id} inverted>
+        <Segment inverted>
           <Player name={name} titleName={titleName} avatarHash={pictureHash} />
           <HeaderDivider content="Match History" />
           {renderMatchHistory()}

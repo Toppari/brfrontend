@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Container } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 
 const MainMenu = () => {
   const [activeItem, setActiveItem] = useState('');
@@ -9,7 +9,6 @@ const MainMenu = () => {
 
   return (
     <Menu inverted>
-      <Container>
         <Menu.Item
           as={Link}
           to="/"
@@ -28,7 +27,6 @@ const MainMenu = () => {
           onClick={handleItemClick}
           icon="info"
         />
-      </Container>
     </Menu>
   );
 };
