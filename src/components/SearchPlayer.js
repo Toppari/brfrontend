@@ -1,12 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import {
-  Button,
-  Loader,
-  Dimmer,
-  Message,
-  Label,
-  Form,
-} from 'semantic-ui-react';
+import { Button, Message, Label, Form } from 'semantic-ui-react';
 
 import useBattleriteAPI from '../api/useBattleriteAPI';
 import DataTable from './DataTable';
@@ -38,7 +31,16 @@ const SearchPlayer = () => {
   };
 
   const searchButton = () => {
-    return <Button primary onClick={onClick} content="Search" icon="search" />;
+    return (
+      <Button
+        primary
+        onClick={onClick}
+        content="Search"
+        icon="search"
+        disabled={isLoading}
+        loading={isLoading}
+      />
+    );
   };
 
   const renderDataError = useMemo(() => {
@@ -51,6 +53,16 @@ const SearchPlayer = () => {
       );
     }
   }, [dataError]);
+
+  const renderValidationError = () => {
+    if (validationError) {
+      return (
+        <Label basic color="red">
+          {validationError}
+        </Label>
+      );
+    }
+  };
 
   return (
     <div>
@@ -72,16 +84,7 @@ const SearchPlayer = () => {
       </Form>
 
       <React.Fragment>
-        {validationError && (
-          <Label basic color="red">
-            {validationError}
-          </Label>
-        )}
-        {isLoading && (
-          <Dimmer active inverted>
-            <Loader active size="large" content="Loading" />
-          </Dimmer>
-        )}
+        {renderValidationError()}
         {renderDataError}
       </React.Fragment>
 
