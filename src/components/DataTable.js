@@ -1,10 +1,10 @@
 import React from 'react';
-import { Segment, Statistic, Header } from 'semantic-ui-react';
+import { Segment, Statistic, Header, Card, Loader } from 'semantic-ui-react';
 
 import HeaderDivider from './HeaderDivider';
 import MatchHistory from './MatchHistory';
-import Stats from './Stats';
 import Player from './Player';
+import Stats from './Stats';
 
 const DataTable = ({ playerData, matchData, isLoading }) => {
   const renderMatchHistory = () => {
@@ -12,17 +12,17 @@ const DataTable = ({ playerData, matchData, isLoading }) => {
       return <Header as="h5" textAlign="center" content="No matches found" />;
     }
 
-    return matchData.map(({ id, ...rest }) => {
-      return <MatchHistory key={id} {...rest} />;
-    });
+    return matchData.map(({ id, ...rest }) => (
+      <MatchHistory key={id} {...rest} />
+    ));
   };
 
   const renderCareerStats = () => {
     const { statCategoryList } = playerData;
 
-    return statCategoryList.map(({ id, ...rest }) => {
-      return <Stats key={id} {...rest} />;
-    });
+    return statCategoryList
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(({ id, ...rest }) => <Stats key={id} {...rest} />);
   };
 
   const renderData = () => {
@@ -34,16 +34,29 @@ const DataTable = ({ playerData, matchData, isLoading }) => {
           <HeaderDivider content="Match History" />
           {renderMatchHistory()}
           <HeaderDivider content="Career Stats" />
-          {renderCareerStats()}
+          <Card.Group itemsPerRow={1}>{renderCareerStats()}</Card.Group>
+        </Segment>
+      );
+    }
+  };
+
+  const renderLoading = () => {
+    if (isLoading) {
+      return (
+        <Segment inverted>
+          <Loader size="large" inverted active indeterminate />
         </Segment>
       );
     }
   };
 
   return (
-    <Statistic.Group inverted widths={3}>
-      {renderData()}
-    </Statistic.Group>
+    <React.Fragment>
+      {renderLoading()}
+      <Statistic.Group size="tiny" widths={6} inverted>
+        {renderData()}
+      </Statistic.Group>
+    </React.Fragment>
   );
 };
 

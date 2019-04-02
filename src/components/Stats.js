@@ -1,38 +1,40 @@
 import React from 'react';
-import { Statistic, Divider, Label, Header } from 'semantic-ui-react';
-import IconLabel from './IconLabel';
+import {
+  Statistic,
+  Divider,
+  Label,
+  Header,
+  Card,
+  Image,
+} from 'semantic-ui-react';
 
-const Stats = ({ name, statList }) => {
-  const renderStats = () => {
-    return statList.map(({ id, name, categoryName, value, iconHash }) => {
-      return (
-        <Statistic key={id}>
-          <Statistic.Value>{value}</Statistic.Value>
-          <Statistic.Label>
-            <Label color="black">
-              {iconHash && <IconLabel iconHash={iconHash} name={name} />}
-              {categoryName}
-            </Label>
-          </Statistic.Label>
-          <Divider hidden />
-        </Statistic>
-      );
-    });
-  };
-
+const Stats = ({ name: statListName, iconHash, statList }) => {
   return (
-    <React.Fragment>
-      <Header
-        as="h3"
-        dividing
-        inverted
-        content={name.toUpperCase()}
-        textAlign="center"
-      />
-      <Statistic.Group size="small">
-        {renderStats()}
-      </Statistic.Group>
-    </React.Fragment>
+    <Card>
+      <Card.Content>
+        <Card.Header textAlign="center">
+          <Header inverted dividing>
+            {iconHash && (
+              <Image circular src={require(`../assets/${iconHash}.png`)} />
+            )}
+            {statListName.toUpperCase()}
+          </Header>
+        </Card.Header>
+        <Card.Description>
+          {statList.map(({ id, categoryName, value }) => {
+            return (
+              <Statistic key={id}>
+                <Statistic.Value>{value}</Statistic.Value>
+                <Statistic.Label>
+                  <Label color="black">{categoryName}</Label>
+                </Statistic.Label>
+                <Divider hidden />
+              </Statistic>
+            );
+          })}
+        </Card.Description>
+      </Card.Content>
+    </Card>
   );
 };
 

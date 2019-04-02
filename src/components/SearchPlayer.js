@@ -38,7 +38,6 @@ const SearchPlayer = () => {
         content="Search"
         icon="search"
         disabled={isLoading}
-        loading={isLoading}
       />
     );
   };

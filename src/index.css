@@ -1,3 +1,7 @@
 html, body {
     background-color: #1B1C1D !important;
 }
+.ui.card {
+    background: #1B1C1D !important;
+}
+
