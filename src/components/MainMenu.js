@@ -8,7 +8,7 @@ const MainMenu = () => {
   const handleItemClick = (event, { name }) => setActiveItem(name);
 
   return (
-    <Menu inverted>
+    <Menu inverted pointing secondary>
         <Menu.Item
           as={Link}
           to="/"

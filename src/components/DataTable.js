@@ -21,7 +21,7 @@ const DataTable = ({ playerData, matchData, isLoading }) => {
     const { statCategoryList } = playerData;
 
     return statCategoryList
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.name.localeCompare(b.name)) //sort list alphabetically
       .map(({ id, ...rest }) => <Stats key={id} {...rest} />);
   };
 

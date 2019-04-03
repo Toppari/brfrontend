@@ -75,6 +75,7 @@ const SearchPlayer = () => {
           action={searchButton()}
           value={inputValue}
           error={validationError !== ''}
+          disabled={isLoading}
           placeholder="Battlerite Username"
           size="big"
           icon="users"
